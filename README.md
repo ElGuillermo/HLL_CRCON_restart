@@ -10,8 +10,8 @@ What it does :
 - report disk usage of various CRCON components
 
 > [!NOTE]
-> The shell commands given below assume your CRCON is installed in `/root/hll_rcon_tool`
-> You may have installed CRCON in a different folder
+> The shell commands given below assume your CRCON is installed in `/root/hll_rcon_tool`  
+> You may have installed CRCON in a different folder  
 > If so, you'll have to adapt the commands accordingly
 
 ## Install
