@@ -12,7 +12,7 @@ What it does :
 - report disk usage of various CRCON components
 
 ## Install
-Download the `restart.sh` file in CRCON's folder using these commands :
+- Log into your CRCON host machine using SSH and enter these commands (one line at at time) :
 ```shell
 cd /root/hll_rcon_tool
 wget https://raw.githubusercontent.com/ElGuillermo/HLL_RCON_restart/refs/heads/main/restart.sh
@@ -22,7 +22,7 @@ wget https://raw.githubusercontent.com/ElGuillermo/HLL_RCON_restart/refs/heads/m
 - Edit `restart.sh` and edit the "configuration" part
 
 ## Use
-- Get into CRCON's root and launch the script using these commands :
+- Log into your CRCON host machine using SSH and enter these commands (one line at at time) :
 ```shell
 cd /root/hll_rcon_tool
 sudo sh ./restart.sh
