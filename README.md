@@ -15,7 +15,7 @@ What it does :
 >   
 > ie : some Ubuntu Linux distributions disable the `root` user and folder by default  
 > In these, your default user is `ubuntu`, using the `/home/ubuntu` folder  
-> So you may find your CRCON in `/home/ubuntu/hll_rcon_tool`  
+> You should then find your CRCON in `/home/ubuntu/hll_rcon_tool`  
 >   
 > If so, you'll have to adapt the commands below accordingly
 
