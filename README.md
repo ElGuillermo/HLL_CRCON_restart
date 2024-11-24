@@ -27,7 +27,7 @@ wget https://raw.githubusercontent.com/ElGuillermo/HLL_RCON_restart/refs/heads/m
 ```
 
 ## Config
-- Edit `restart.sh` and set parameters to fit your needs in the "configuration" part
+- Edit `/root/hll_rcon_tool/restart.sh` and set parameters to fit your needs.
 
 ## Use
 - Log into your CRCON host machine using SSH and enter these commands (one line at at time) :
