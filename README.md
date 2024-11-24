@@ -1,6 +1,4 @@
 # HLL_CRCON_restart
-
-## Description
 Stand alone tool to restart an Hell Let Loose (HLL) CRCON (see : https://github.com/MarechJ/hll_rcon_tool) install.
 
 What it does :  
