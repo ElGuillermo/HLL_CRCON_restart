@@ -13,7 +13,7 @@ What it does :
 > The shell commands given below assume your CRCON is installed in `/root/hll_rcon_tool`.  
 > You may have installed CRCON in a different folder.  
 >   
-> ie : some Ubuntu Linux distributions disable the `root` user and folder by default.  
+> Some Ubuntu Linux distributions disable the `root` user and `/root` folder by default.  
 > In these, your default user is `ubuntu`, using the `/home/ubuntu` folder.  
 > You should then find your CRCON in `/home/ubuntu/hll_rcon_tool`.  
 >   
