@@ -18,8 +18,9 @@ CRCON_folder_path="/root/hll_rcon_tool"
 fullstop="yes"
 
 # Set to "yes" if you have modified any file that comes from CRCON repository
-# Default : "no"
-rebuild_before_restart="no"
+# (Won't hurt anything if you're running vanilla CRCRON)
+# Default : "yes"
+rebuild_before_restart="yes"
 
 # Delete logs before restart
 # Default : "no"
