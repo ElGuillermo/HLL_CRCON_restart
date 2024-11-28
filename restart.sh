@@ -18,8 +18,7 @@ CRCON_folder_path="/root/hll_rcon_tool"
 fullstop="yes"
 
 # Set to "yes" if you have modified any file that comes from CRCON repository
-# (Won't hurt anything if you're running vanilla CRCRON)
-# Default : "yes"
+# Default : "no"
 rebuild_before_restart="yes"
 
 # Delete logs before restart
@@ -62,7 +61,7 @@ if [ ! "$current_dir" = "$crcon_dir" ]; then
     if [ "$this_script_dir" = "$crcon_dir" ]; then
       printf "\033[32mV\033[0m This script is located in the CRCON folder\n"
       # There is a compose.yaml file in the CRCON folder
-      if [ -f "$crcon_dir/compose.yaml" ]; then
+      if [ -f "$crcon_dir/compose.yaml" ] && [ -f "$crcon_dir/.env" ]; then
         printf "\033[32mV\033[0m The CRCON seems to be configured\n\n"
       # No compose.yaml file could be found in the CRCON folder
       else
