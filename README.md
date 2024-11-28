@@ -30,7 +30,7 @@ wget https://raw.githubusercontent.com/ElGuillermo/HLL_RCON_restart/refs/heads/m
 - Edit `/root/hll_rcon_tool/restart.sh` and set parameters to fit your needs.
 
 ## Use
-- Log into your CRCON host machine using SSH and enter these commands (one line at at time) :
+- Log into your CRCON host machine using SSH and enter these commands (one line at a time) :
 ```shell
 cd /root/hll_rcon_tool
 sudo sh ./restart.sh
