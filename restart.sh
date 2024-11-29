@@ -13,7 +13,7 @@ CRCON_folder_path="/root/hll_rcon_tool"
 # Full stop CRCON before restart
 # You can just restart it above a running instance (ie "no"),
 # but some changes on environment parameters would be ignored
-# So it's better to stop it completely before starting it again
+# So it's better to stop CRCON completely before starting it again
 # Default : "yes"
 fullstop="yes"
 
@@ -25,7 +25,8 @@ fullstop="yes"
 redis_cache_flush="no"
 
 # Set to "yes" if you have modified any file that comes from CRCON repository
-# Default : "no"
+# First rebuild will take ~3-4 minutes. Subsequent ones will take ~30 seconds.
+# Default : "yes"
 rebuild_before_restart="yes"
 
 # Delete logs before restart
@@ -34,7 +35,7 @@ delete_logs="no"
 
 # Delete the obsolete Docker images, containers and build cache
 # This will free a *lot* (several GBs) of disk space
-# But the next build procedure will be a *minutes* longer
+# But the next build procedure will be *minutes* longer
 # Default : "no"
 clean_docker_stuff="no"
 
