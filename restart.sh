@@ -28,6 +28,10 @@ delete_logs="no"
 # Delete the obsolete Docker images, containers and build cache
 # Default : "no"
 clean_docker_stuff="no"
+
+# Storage informations
+# Default : "no"
+storage_info="no"
 #
 # └───────────────────────────────────────────────────────────────────────────┘
 
@@ -46,8 +50,8 @@ printf "│ CRCON restart                                                       
 printf "└─────────────────────────────────────────────────────────────────────────────┘\n\n"
 # Script must be launched using 'root' permissions
 if [ "$(id -u)" -ne 0 ]; then
-  printf "\033[31mError\033[0m :\nThis \033[37m%s\033[0m script should be run with full permissions\n\n" "$this_script_name"
-  printf "You're not the 'root' user, you must elevate your permissions using 'sudo' :\n"
+  printf "\033[31mError\033[0m :\nThis \033[37m%s\033[0m script must be run with full permissions\n\n" "$this_script_name"
+  printf "You're not the 'root' user. You must elevate your permissions using 'sudo' :\n"
   printf "\033[36msudo sh ./%s\033[0m\n\n" "$this_script_name"
   exit
 fi
@@ -136,16 +140,29 @@ else
     printf "Cleaning : \033[32mdone\033[0m.\n\n"
   fi
 
-  echo "┌──────────────────────────────────────┐"
-  echo "│ CRCON storage occupation             │"
-  echo "└──────────────────────────────────────┘"
-  { printf "Database         : "; du -sh "$crcon_dir"/db_data | tr -d '\n'; }
-  { printf "\nRedis cache      : "; du -sh "$crcon_dir"/redis_data | tr -d '\n'; }
-  { printf "\nLogs             : "; du -sh "$crcon_dir"/logs | tr -d '\n'; }
-  printf "\n└──────────────────────────────────────┘"
-  { printf "\nCRCON total size : "; du -sh "$crcon_dir" | tr -d '\n'; }
-  printf "\n\n"
-
+  if [ $storage_info = "yes" ]; then
+    echo "┌──────────────────────────────────────┐"
+    echo "│ CRCON storage information            │"
+    echo "└──────────────────────────────────────┘"
+    { printf "CRCON total size     : "; du -sh "$crcon_dir" | tr -d '\n'; }
+    printf "\n────────────────────────────────────────"
+    { printf "\n └ Database          : "; du -sh "$crcon_dir"/db_data | tr -d '\n'; }
+    db_command="docker exec -it hll_rcon_tool-postgres-1 psql -U rcon -d rcon -t -A -c "
+    db_table_size="SELECT pg_size_pretty(pg_total_relation_size('public."
+    db_cols_count="SELECT COUNT(*) FROM public."
+    { printf "\n   └ audit_log       : "; ($db_command "$db_table_size""audit_log'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_cols_count""audit_log";) | tr -d ' \t\r\n'; printf " rows)\n"; }
+    { printf "   └ log_lines       : "; ($db_command "$db_table_size""log_lines'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_cols_count""log_lines";) | tr -d ' \t\r\n'; printf " rows)\n"; }
+    { printf "   └ player_names    : "; ($db_command "$db_table_size""player_names'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_cols_count""player_names";) | tr -d ' \t\r\n'; printf " rows)\n"; }
+    { printf "   └ player_sessions : "; ($db_command "$db_table_size""player_sessions'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_cols_count""player_sessions";) | tr -d ' \t\r\n'; printf " rows)\n"; }
+    { printf "   └ player_stats    : "; ($db_command "$db_table_size""player_stats'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_cols_count""player_stats";) | tr -d ' \t\r\n'; printf " rows)\n"; }
+    { printf "   └ players_actions : "; ($db_command "$db_table_size""players_actions'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_cols_count""players_actions";) | tr -d ' \t\r\n'; printf " rows)\n"; }
+    { printf "   └ steam_id_64     : "; ($db_command "$db_table_size""steam_id_64'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_cols_count""steam_id_64";) | tr -d ' \t\r\n'; printf " rows)\n"; }
+    { printf "   └ steam_info      : "; ($db_command "$db_table_size""steam_info'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_cols_count""steam_info";) | tr -d ' \t\r\n'; printf " rows)\n"; }
+    { printf " └ Logs              : "; du -sh "$crcon_dir"/logs | tr -d '\n'; }
+    { printf "\n └ Redis cache       : "; du -sh "$crcon_dir"/redis_data | tr -d '\n'; }
+    printf "\n└──────────────────────────────────────┘\n\n"
+  fi
+  
   printf "Wait for a full minute before using CRCON's interface.\n\n"
 fi
 exit
