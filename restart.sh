@@ -17,6 +17,13 @@ CRCON_folder_path="/root/hll_rcon_tool"
 # Default : "yes"
 fullstop="yes"
 
+# Redis cache flush
+# You should NOT enable this one until asked to do so
+# That will force CRCON to read ~5 min of previous logs from the game server
+# This will resend past automod/votemap/admin/etc messages, punishes and kicks
+# Default : "no"
+redis_cache_flush="no"
+
 # Set to "yes" if you have modified any file that comes from CRCON repository
 # Default : "no"
 rebuild_before_restart="yes"
@@ -26,6 +33,8 @@ rebuild_before_restart="yes"
 delete_logs="no"
 
 # Delete the obsolete Docker images, containers and build cache
+# This will free a *lot* (several GBs) of disk space
+# But the next build procedure will be a *minutes* longer
 # Default : "no"
 clean_docker_stuff="no"
 
@@ -121,6 +130,17 @@ else
     printf "Stop CRCON : \033[32mdone\033[0m.\n\n"
   fi
 
+  if [ $redis_cache_flush = "yes" ]; then
+    echo "┌──────────────────────────────────────┐"
+    echo "│ Redis cache flush                    │"
+    echo "└──────────────────────────────────────┘"
+    docker compose up -d redis
+    docker compose exec redis redis-cli flushall
+    docker compose down
+    echo "└──────────────────────────────────────┘"
+    printf "Redis cache flush : \033[32mdone\033[0m.\n\n"
+  fi
+
   echo "┌──────────────────────────────────────┐"
   echo "│ Restart CRCON                        │"
   echo "└──────────────────────────────────────┘"
@@ -149,15 +169,15 @@ else
     { printf "\n └ Database          : "; du -sh "$crcon_dir"/db_data | tr -d '\n'; }
     db_command="docker exec -it hll_rcon_tool-postgres-1 psql -U rcon -d rcon -t -A -c "
     db_table_size="SELECT pg_size_pretty(pg_total_relation_size('public."
-    db_cols_count="SELECT COUNT(*) FROM public."
-    { printf "\n   └ audit_log       : "; ($db_command "$db_table_size""audit_log'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_cols_count""audit_log";) | tr -d ' \t\r\n'; printf " rows)\n"; }
-    { printf "   └ log_lines       : "; ($db_command "$db_table_size""log_lines'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_cols_count""log_lines";) | tr -d ' \t\r\n'; printf " rows)\n"; }
-    { printf "   └ player_names    : "; ($db_command "$db_table_size""player_names'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_cols_count""player_names";) | tr -d ' \t\r\n'; printf " rows)\n"; }
-    { printf "   └ player_sessions : "; ($db_command "$db_table_size""player_sessions'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_cols_count""player_sessions";) | tr -d ' \t\r\n'; printf " rows)\n"; }
-    { printf "   └ player_stats    : "; ($db_command "$db_table_size""player_stats'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_cols_count""player_stats";) | tr -d ' \t\r\n'; printf " rows)\n"; }
-    { printf "   └ players_actions : "; ($db_command "$db_table_size""players_actions'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_cols_count""players_actions";) | tr -d ' \t\r\n'; printf " rows)\n"; }
-    { printf "   └ steam_id_64     : "; ($db_command "$db_table_size""steam_id_64'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_cols_count""steam_id_64";) | tr -d ' \t\r\n'; printf " rows)\n"; }
-    { printf "   └ steam_info      : "; ($db_command "$db_table_size""steam_info'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_cols_count""steam_info";) | tr -d ' \t\r\n'; printf " rows)\n"; }
+    db_rows_count="SELECT COUNT(*) FROM public."
+    { printf "\n   └ audit_log       : "; ($db_command "$db_table_size""audit_log'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_rows_count""audit_log";) | tr -d ' \t\r\n'; printf " rows)\n"; }
+    { printf "   └ log_lines       : "; ($db_command "$db_table_size""log_lines'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_rows_count""log_lines";) | tr -d ' \t\r\n'; printf " rows)\n"; }
+    { printf "   └ player_names    : "; ($db_command "$db_table_size""player_names'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_rows_count""player_names";) | tr -d ' \t\r\n'; printf " rows)\n"; }
+    { printf "   └ player_sessions : "; ($db_command "$db_table_size""player_sessions'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_rows_count""player_sessions";) | tr -d ' \t\r\n'; printf " rows)\n"; }
+    { printf "   └ player_stats    : "; ($db_command "$db_table_size""player_stats'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_rows_count""player_stats";) | tr -d ' \t\r\n'; printf " rows)\n"; }
+    { printf "   └ players_actions : "; ($db_command "$db_table_size""players_actions'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_rows_count""players_actions";) | tr -d ' \t\r\n'; printf " rows)\n"; }
+    { printf "   └ steam_id_64     : "; ($db_command "$db_table_size""steam_id_64'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_rows_count""steam_id_64";) | tr -d ' \t\r\n'; printf " rows)\n"; }
+    { printf "   └ steam_info      : "; ($db_command "$db_table_size""steam_info'));") | tr -d ' \t\r\n'; printf "\t("; ($db_command "$db_rows_count""steam_info";) | tr -d ' \t\r\n'; printf " rows)\n"; }
     { printf " └ Logs              : "; du -sh "$crcon_dir"/logs | tr -d '\n'; }
     { printf "\n └ Redis cache       : "; du -sh "$crcon_dir"/redis_data | tr -d '\n'; }
     printf "\n└──────────────────────────────────────┘\n\n"
