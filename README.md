@@ -3,11 +3,11 @@ Stand alone tool to restart an Hell Let Loose (HLL) CRCON (see : https://github.
 
 What it does :  
 - `(optional)` rebuild CRCON  
-- stop CRCON  
+- `(optional)` stop CRCON  
 - `(optional)` delete logs  
 - restart CRCON  
 - `(optional)` delete obsoleted Docker containers and images  
-- report disk usage of various CRCON components
+- `(optional)` report disk usage of various CRCON components
 
 > [!NOTE]
 > The shell commands given below assume your CRCON is installed in `/root/hll_rcon_tool`.  
