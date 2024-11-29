@@ -7,7 +7,7 @@ What it does :
 - `(optional)` flush Redis cache  
 - `(optional)` delete logs  
 - restart CRCON  
-- `(optional)` delete obsoleted Docker containers and images  
+- `(optional)` delete obsolete Docker containers and images  
 - `(optional)` report disk usage of various CRCON components
 
 ## Install
