@@ -3,7 +3,8 @@ Stand alone tool to restart an Hell Let Loose (HLL) CRCON (see : https://github.
 
 What it does :  
 - `(optional)` rebuild CRCON  
-- `(optional)` stop CRCON  
+- `(optional)` stop CRCON
+- `(optional)` flush Redis cache  
 - `(optional)` delete logs  
 - restart CRCON  
 - `(optional)` delete obsoleted Docker containers and images  
