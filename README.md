@@ -21,7 +21,7 @@ What it does :
 >   
 > If so, you'll have to adapt the commands below accordingly.
 
-- Log into your CRCON host machine using SSH and enter these commands (one line at at time) :
+- Log into your CRCON host machine using SSH and enter these commands (one line at a time) :
 ```shell
 cd /root/hll_rcon_tool
 wget https://raw.githubusercontent.com/ElGuillermo/HLL_RCON_restart/refs/heads/main/restart.sh
